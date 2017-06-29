@@ -81,6 +81,7 @@ namespace BS.Output.CommandLine
           ApplicationTextBox.Text = openFileDialog.FileName;
 
           NameTextBox.Text = System.IO.Path.GetFileNameWithoutExtension(openFileDialog.FileName);
+
         }
       }
 
