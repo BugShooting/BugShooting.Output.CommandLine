@@ -19,7 +19,7 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <Label Grid.Column="0">Name</Label>
-      <TextBox x:Name="NameTextBox" Grid.Column="1" VerticalContentAlignment="Center" />
+      <TextBox x:Name="NameTextBox" Grid.Column="1" VerticalContentAlignment="Center" local:Validation.Required="True" />
     </Grid>
     <Grid Margin="4">
       <Grid.ColumnDefinitions>
@@ -27,7 +27,7 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <Label Grid.Column="0">Application</Label>
-      <TextBox x:Name="ApplicationTextBox" Grid.Column="1" VerticalContentAlignment="Center" Margin="0,0,34,0" />
+      <TextBox x:Name="ApplicationTextBox" Grid.Column="1" VerticalContentAlignment="Center" Margin="0,0,34,0" local:Validation.Required="True" />
       <Button x:Name="SelectApplication"  Grid.Column="1" Content="..." Width="25" HorizontalAlignment="Right" Click="SelectApplication_Click" />
     </Grid>
     <Grid Margin="4">
@@ -36,7 +36,7 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <Label Grid.Column="0">Arguments</Label>
-      <TextBox x:Name="ArgumentsTextBox" Grid.Column="1" VerticalContentAlignment="Center" Margin="0,0,34,0"/>
+      <TextBox x:Name="ArgumentsTextBox" Grid.Column="1" VerticalContentAlignment="Center" Margin="0,0,34,0" />
       <Button x:Name="ArgumentsReplacement"  Grid.Column="1" Content="%" Width="25" HorizontalAlignment="Right" Click="ArgumentsReplacement_Click">
         <Button.ContextMenu>
           <ContextMenu x:Name="ArgumentsReplacementList" >
@@ -59,11 +59,11 @@
           <ContextMenu x:Name="FileNameReplacementList" />
         </Button.ContextMenu>
       </Button>
-      <ComboBox x:Name="FileFormatList" Grid.Column="1" Width="60" HorizontalAlignment="Right" SelectedValuePath="Tag" />
+      <ComboBox x:Name="FileFormatComboBox" Grid.Column="1" Width="60" HorizontalAlignment="Right" SelectedValuePath="Tag" local:Validation.Required="True" />
     </Grid>
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0" >
-      <Button Width="80" Height="24" Content="OK" Margin="4" Click="OK_Click" />
-      <Button Width="80" Height="24" Content="Cancel" Margin="4" Click="Cancel_Click" />
+      <Button x:Name="OK" Width="80" Height="24" Content="OK" Margin="4" IsDefault="True" Click="OK_Click" />
+      <Button Width="80" Height="24" Content="Cancel" Margin="4" IsCancel="True" />
     </StackPanel>
   </StackPanel>
 

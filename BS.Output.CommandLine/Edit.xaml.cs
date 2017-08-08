@@ -23,24 +23,37 @@ namespace BS.Output.CommandLine
         FileNameReplacementList.Items.Add(item);
       }
 
-      foreach (string fileFormat in V3.FileHelper.GetFileFormats())
+      IEnumerable<string> fileFormats = V3.FileHelper.GetFileFormats();
+      foreach (string fileFormat in fileFormats)
       {
         ComboBoxItem item = new ComboBoxItem();
         item.Content = fileFormat;
         item.Tag = fileFormat;
-        FileFormatList.Items.Add(item);
+        FileFormatComboBox.Items.Add(item);
       }
 
       NameTextBox.Text = output.Name;
       ApplicationTextBox.Text = output.Application;
       ArgumentsTextBox.Text = output.Arguments;
       FileNameTextBox.Text = output.FileName;
-      FileFormatList.SelectedValue = output.FileFormat;
-      if (FileFormatList.SelectedValue is null)
+      FileFormatComboBox.SelectedValue = output.FileFormat;
+
+      if (fileFormats.Contains(output.FileFormat))
       {
-        FileFormatList.SelectedIndex = 0;
+        FileFormatComboBox.SelectedValue = output.FileFormat;
       }
-      
+      else
+      {
+        FileFormatComboBox.SelectedValue = fileFormats.First();
+      }
+
+      NameTextBox.TextChanged += ValidateData;
+      ApplicationTextBox.TextChanged += ValidateData;
+      FileFormatComboBox.SelectionChanged += ValidateData;
+      ValidateData(null, null);
+
+      ApplicationTextBox.Focus();
+
     }
 
     public string OutputName
@@ -65,7 +78,7 @@ namespace BS.Output.CommandLine
 
     public string FileFormat
     {
-      get { return FileFormatList.SelectedValue.ToString(); }
+      get { return (string)FileFormatComboBox.SelectedValue; }
     }
 
     private void SelectApplication_Click(object sender, RoutedEventArgs e)
@@ -131,31 +144,17 @@ namespace BS.Output.CommandLine
 
     }
 
+    private void ValidateData(object sender, EventArgs e)
+    {
+      OK.IsEnabled = Validation.IsValid(NameTextBox) &&
+                     Validation.IsValid(ApplicationTextBox) &&
+                     Validation.IsValid(FileFormatComboBox);
+    }
+
     private void OK_Click(object sender, RoutedEventArgs e)
     {
       this.DialogResult = true;
     }
-
-    private void Cancel_Click(object sender, RoutedEventArgs e)
-    {
-      this.DialogResult = false;
-    }
-
-    protected override void OnPreviewKeyDown(KeyEventArgs e)
-    {
-      base.OnPreviewKeyDown(e);
-
-      switch (e.Key)
-      {
-        case Key.Enter:
-          OK_Click(this, e);
-          break;
-        case Key.Escape:
-          Cancel_Click(this, e);
-          break;
-      }
-            
-    }
-
+    
   }
 }
