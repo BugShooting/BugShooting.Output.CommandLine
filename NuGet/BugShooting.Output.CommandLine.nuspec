@@ -1,21 +1,21 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
-			<id>BS.Output.CommandLine</id>
+			<id>BugShooting.Output.CommandLine</id>
 			<version>1.0.0</version>
 			<title>Command line Output for Bug Shooting</title>
       <authors>Bug Shooting, Alexej Hirsch</authors>
       <owners>Bug Shooting, Alexej Hirsch</owners>
-      <licenseUrl>https://github.com/BugShooting/Output.CommandLine/raw/master/LICENSE.txt</licenseUrl>
+      <licenseUrl>https://github.com/BugShooting/BugShooting.Output.CommandLine/raw/master/LICENSE.txt</licenseUrl>
 			<projectUrl>https://github.com/BugShooting</projectUrl>
-			<iconUrl>https://github.com/BugShooting/Output.CommandLine/raw/master/BS.Output.CommandLine/Resources/logo_64.png</iconUrl>
+			<iconUrl>https://github.com/BugShooting/BugShooting.Output.CommandLine/raw/master/BugShooting.Output.CommandLine/Resources/logo_64.png</iconUrl>
 			<requireLicenseAcceptance>false</requireLicenseAcceptance>
 			<releaseNotes />
 			<description>Share screenshots to every application by using the command line.</description>
 			<copyright />
-			<tags>bugshooting.com/output/v3</tags>
+			<tags>bugshooting.plugin.v3.output</tags>
     </metadata>
     <files>
-			<file src="BS.Output.CommandLine.dll" />
+			<file src="BugShooting.Output.CommandLine.dll" />
     </files>
 </package>

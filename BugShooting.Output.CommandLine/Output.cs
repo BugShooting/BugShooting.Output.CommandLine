@@ -1,4 +1,6 @@
-﻿namespace BS.Output.CommandLine
+﻿using BS.Plugin.V3.Output;
+
+namespace BugShooting.Output.CommandLine
 {
 
   public class Output: IOutput 

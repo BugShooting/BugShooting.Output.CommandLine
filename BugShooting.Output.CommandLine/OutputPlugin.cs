@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using BS.Plugin.V3.Output;
+using BS.Plugin.V3.Common;
+using BS.Plugin.V3.Utilities;
 
-namespace BS.Output.CommandLine
+namespace BugShooting.Output.CommandLine
 {
-  public class OutputAddIn: V3.OutputAddIn<Output>
+  public class OutputPlugin: OutputPlugin<Output>
   {
 
     protected override string Name
@@ -73,40 +75,39 @@ namespace BS.Output.CommandLine
 
     }
 
-    protected override OutputValueCollection SerializeOutput(Output Output)
+    protected override OutputValues SerializeOutput(Output Output)
     {
 
-      OutputValueCollection outputValues = new OutputValueCollection();
+      OutputValues outputValues = new OutputValues();
 
-      outputValues.Add(new OutputValue("Name", Output.Name));
-      outputValues.Add(new OutputValue("Application", Output.Application));
-      outputValues.Add(new OutputValue("Arguments", Output.Arguments));
-      outputValues.Add(new OutputValue("FileName", Output.FileName));
-      outputValues.Add(new OutputValue("FileFormat", Output.FileFormat));
+      outputValues.Add("Name", Output.Name);
+      outputValues.Add("Application", Output.Application);
+      outputValues.Add("Arguments", Output.Arguments);
+      outputValues.Add("FileName", Output.FileName);
+      outputValues.Add("FileFormat", Output.FileFormat);
 
       return outputValues;
       
     }
 
-    protected override Output DeserializeOutput(OutputValueCollection OutputValues)
+    protected override Output DeserializeOutput(OutputValues OutputValues)
     {
-      return new Output(OutputValues["Name", this.Name].Value,
-                        OutputValues["Application", ""].Value,
-                        OutputValues["Arguments", ""].Value,
-                        OutputValues["FileName", "Screenshot"].Value,
-                        OutputValues["FileFormat", ""].Value);
+      return new Output(OutputValues["Name", this.Name],
+                        OutputValues["Application", ""],
+                        OutputValues["Arguments", ""],
+                        OutputValues["FileName", "Screenshot"],
+                        OutputValues["FileFormat", ""]);
     }
 
-    protected async override Task<V3.SendResult> Send(IWin32Window Owner, Output Output, V3.ImageData ImageData)
+    protected async override Task<SendResult> Send(IWin32Window Owner, Output Output, ImageData ImageData)
     {
       try
       {
 
-        string fileFormat = Output.FileFormat;
-        string fileName = V3.FileHelper.GetFileName(Output.FileName, fileFormat, ImageData); ;
-        string filePath = Path.Combine(Path.GetTempPath(), fileName + "." + V3.FileHelper.GetFileExtention(fileFormat));
+        string fileName = FileHelper.GetFileName(Output.FileName,  ImageData); ;
+        string filePath = Path.Combine(Path.GetTempPath(), fileName + "." + FileHelper.GetFileExtention(Output.FileFormat));
         
-        Byte[] fileBytes = V3.FileHelper.GetFileBytes(fileFormat, ImageData);
+        Byte[] fileBytes = FileHelper.GetFileBytes(Output.FileFormat, ImageData);
 
         using (FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
         {
@@ -129,12 +130,12 @@ namespace BS.Output.CommandLine
 
         Process.Start(Output.Application, arguments);
 
-        return new V3.SendResult(V3.Result.Success, filePath);
+        return new SendResult(Result.Success, filePath);
 
       }
       catch (Exception ex)
       {
-        return new V3.SendResult(V3.Result.Failed, ex.Message);
+        return new SendResult(Result.Failed, ex.Message);
       }
 
     }

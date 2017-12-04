@@ -1,13 +1,11 @@
-﻿using System;
+﻿using BS.Plugin.V3.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
-namespace BS.Output.CommandLine
+namespace BugShooting.Output.CommandLine
 {
   partial class Edit : Window
   {
@@ -15,7 +13,7 @@ namespace BS.Output.CommandLine
     {
       InitializeComponent();
 
-      foreach (string fileNameReplacement in V3.FileHelper.GetFileNameReplacements())
+      foreach (string fileNameReplacement in FileHelper.GetFileNameReplacements())
       {
         MenuItem item = new MenuItem();
         item.Header = fileNameReplacement;
@@ -23,7 +21,7 @@ namespace BS.Output.CommandLine
         FileNameReplacementList.Items.Add(item);
       }
 
-      IEnumerable<string> fileFormats = V3.FileHelper.GetFileFormats();
+      IEnumerable<string> fileFormats = FileHelper.GetFileFormats();
       foreach (string fileFormat in fileFormats)
       {
         ComboBoxItem item = new ComboBoxItem();
