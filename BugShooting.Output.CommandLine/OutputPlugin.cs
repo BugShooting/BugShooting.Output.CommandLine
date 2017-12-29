@@ -104,7 +104,7 @@ namespace BugShooting.Output.CommandLine
       try
       {
 
-        string fileName = FileHelper.GetFileName(Output.FileName,  ImageData); ;
+        string fileName = AttributeHelper.ReplaceAttributes(Output.FileName,  ImageData); ;
         string filePath = Path.Combine(Path.GetTempPath(), fileName + "." + FileHelper.GetFileExtention(Output.FileFormat));
         
         Byte[] fileBytes = FileHelper.GetFileBytes(Output.FileFormat, ImageData);

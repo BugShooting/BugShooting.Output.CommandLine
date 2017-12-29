@@ -13,10 +13,11 @@ namespace BugShooting.Output.CommandLine
     {
       InitializeComponent();
 
-      foreach (string fileNameReplacement in FileHelper.GetFileNameReplacements())
+      foreach (string fileNameReplacement in AttributeHelper.GetAttributeReplacements())
       {
         MenuItem item = new MenuItem();
-        item.Header = fileNameReplacement;
+        item.Header = new TextBlock() { Text = fileNameReplacement };
+        item.Tag = fileNameReplacement;
         item.Click += FileNameReplacementItem_Click;
         FileNameReplacementList.Items.Add(item);
       }
@@ -135,9 +136,9 @@ namespace BugShooting.Output.CommandLine
 
       int selectionStart = FileNameTextBox.SelectionStart;
 
-      FileNameTextBox.Text = FileNameTextBox.Text.Substring(0, FileNameTextBox.SelectionStart) + item.Header.ToString() + FileNameTextBox.Text.Substring(FileNameTextBox.SelectionStart, FileNameTextBox.Text.Length - FileNameTextBox.SelectionStart);
+      FileNameTextBox.Text = FileNameTextBox.Text.Substring(0, FileNameTextBox.SelectionStart) + item.Tag.ToString() + FileNameTextBox.Text.Substring(FileNameTextBox.SelectionStart, FileNameTextBox.Text.Length - FileNameTextBox.SelectionStart);
 
-      FileNameTextBox.SelectionStart = selectionStart + item.Header.ToString().Length;
+      FileNameTextBox.SelectionStart = selectionStart + item.Tag.ToString().Length;
       FileNameTextBox.Focus();
 
     }
