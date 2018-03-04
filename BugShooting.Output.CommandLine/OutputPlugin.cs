@@ -7,6 +7,7 @@ using System.Diagnostics;
 using BS.Plugin.V3.Output;
 using BS.Plugin.V3.Common;
 using BS.Plugin.V3.Utilities;
+using System.Linq;
 
 namespace BugShooting.Output.CommandLine
 {
@@ -45,7 +46,7 @@ namespace BugShooting.Output.CommandLine
                                  string.Empty,
                                  "%file%",
                                  "Screenshot",
-                                 String.Empty);
+                                 FileHelper.GetFileFormats().First().ID);
 
       return EditOutput(Owner, output);
 
@@ -66,7 +67,7 @@ namespace BugShooting.Output.CommandLine
                           edit.Application,
                           edit.Arguments,
                           edit.FileName,
-                          edit.FileFormat);
+                          edit.FileFormatID);
       }
       else
       {
@@ -84,7 +85,7 @@ namespace BugShooting.Output.CommandLine
       outputValues.Add("Application", Output.Application);
       outputValues.Add("Arguments", Output.Arguments);
       outputValues.Add("FileName", Output.FileName);
-      outputValues.Add("FileFormat", Output.FileFormat);
+      outputValues.Add("FileFormatID", Output.FileFormatID.ToString());
 
       return outputValues;
       
@@ -96,18 +97,19 @@ namespace BugShooting.Output.CommandLine
                         OutputValues["Application", ""],
                         OutputValues["Arguments", ""],
                         OutputValues["FileName", "Screenshot"],
-                        OutputValues["FileFormat", ""]);
+                        new Guid(OutputValues["FileFormatID", ""]));
     }
 
     protected async override Task<SendResult> Send(IWin32Window Owner, Output Output, ImageData ImageData)
     {
       try
       {
+        IFileFormat fileFormat = FileHelper.GetFileFormat(Output.FileFormatID);
 
         string fileName = AttributeHelper.ReplaceAttributes(Output.FileName,  ImageData); ;
-        string filePath = Path.Combine(Path.GetTempPath(), fileName + "." + FileHelper.GetFileExtension(Output.FileFormat));
+        string filePath = Path.Combine(Path.GetTempPath(), fileName + "." + fileFormat.FileExtension);
         
-        Byte[] fileBytes = FileHelper.GetFileBytes(Output.FileFormat, ImageData);
+        Byte[] fileBytes = FileHelper.GetFileBytes(Output.FileFormatID, ImageData);
 
         using (FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
         {

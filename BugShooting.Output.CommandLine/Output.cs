@@ -1,4 +1,5 @@
 ﻿using BS.Plugin.V3.Output;
+using System;
 
 namespace BugShooting.Output.CommandLine
 {
@@ -10,19 +11,19 @@ namespace BugShooting.Output.CommandLine
     string application;
     string arguments;
     string fileName;
-    string fileFormat;
+    Guid fileFormatID;
 
     public Output(string name,
                   string application,
                   string arguments,
                   string fileName,
-                  string fileFormat)
+                  Guid fileFormatID)
     {
       this.name = name;
       this.application = application;
       this.arguments = arguments;
       this.fileName = fileName;
-      this.fileFormat = fileFormat;
+      this.fileFormatID = fileFormatID;
     }
     
     public string Name
@@ -50,9 +51,9 @@ namespace BugShooting.Output.CommandLine
       get { return fileName; }
     }
 
-    public string FileFormat
+    public Guid FileFormatID
     {
-      get { return fileFormat; }
+      get { return fileFormatID; }
     }
 
   }
